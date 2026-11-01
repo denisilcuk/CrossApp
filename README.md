@@ -15,10 +15,20 @@ CrossApp/
   CrossApp.sln
   README.md
   .gitignore
+  data/
+    sample.csv
+    valid.csv
+    no-header.csv
   src/
     Core/
       Core.csproj
       EnvironmentInfo.cs
+      Dto/
+        ProductDto.cs
+        WarehouseDto.cs
+        ImportResult.cs
+      Import/
+        ProductCsvImporter.cs
     Cli/
       Cli.csproj
       Program.cs
@@ -37,7 +47,25 @@ CrossApp/
 ```bash
 dotnet build
 dotnet run --project src/Cli
+dotnet run --project src/Cli -- data/valid.csv
 ```
+
+Без аргументу програма читає `data/sample.csv` відносно поточного каталогу, тому запускати її слід із кореня репозиторію.
+
+## Формат файлу імпорту
+
+- Кодування: UTF-8.
+- Роздільник: крапка з комою (`;`).
+- Колонки: `id;sku;name;unit;quantity`.
+- Заголовок необов'язковий: перший рядок, що починається з `id`, пропускається.
+- Порожні рядки та рядки, що починаються з `#`, ігноруються.
+- `quantity` — ціле невід'ємне число.
+
+Тестові файли:
+
+- `data/sample.csv` — 10 коректних рядків і 3 навмисно пошкоджені (рядки 12–14).
+- `data/valid.csv` — лише коректні рядки.
+- `data/no-header.csv` — коректні рядки без заголовка.
 
 ## Публікація
 
